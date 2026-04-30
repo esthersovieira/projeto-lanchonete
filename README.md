@@ -31,31 +31,40 @@ O projeto está estruturado em quatro módulos principais:
 
 > **Nota:** O projeto não utiliza APIs REST/GraphQL nem servidores de banco de dados externos (como MySQL ou PostgreSQL), utilizando o **SQLite** nativo do Django para simplificar a implantação.
 
-## 📂 Estrutura de Diretórios
+# 🍔 Lanchonete Escola (Django)
 
-```text
+Projeto desenvolvido com Django para gerenciamento de uma lanchonete escolar, incluindo cardápio, produtos e pedidos.
+
+---
+
+## 📁 Estrutura do Projeto
+
+
 .
 ├── manage.py
-├── db.sqlite3              # Banco de dados local
-├── requirements.txt        # Dependências do Python
-├── home/                   # App: Página Inicial
-├── cardapio/               # App: Visualização do Menu
-├── produtos/               # App: Cadastro de Itens
-├── pedidos/                # App: Controle de Compras
-├── templates/              # HTMLs globais
-├── static/                 # CSS, JS e Imagens
-└── lanchonete/             # Configurações do projeto
-🚀 Como Rodar o Projeto
+├── db.sqlite3 # Banco de dados local
+├── requirements.txt # Dependências do Python
+├── home/ # App: Página Inicial
+├── cardapio/ # App: Visualização do Menu
+├── produtos/ # App: Cadastro de Itens
+├── pedidos/ # App: Controle de Compras
+├── templates/ # HTMLs globais
+├── static/ # CSS, JS e Imagens
+└── lanchonete/ # Configurações do projeto
+
+
+---
+
+## 🚀 Como Rodar o Projeto
+
 Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
-1. Clonar o Repositório
-Bash
+### 1. Clonar o Repositório
 
+```bash
 git clone https://github.com/SEU_USUARIO/lanchonete-escola.git
 cd lanchonete-escola
 2. Criar Ambiente Virtual
-Bash
-
 # Windows
 python -m venv venv
 venv\Scripts\activate
@@ -64,49 +73,61 @@ venv\Scripts\activate
 python3 -m venv venv
 source venv/bin/activate
 3. Instalar Dependências
-Bash
-
 pip install -r requirements.txt
 4. Configurar Banco de Dados
-Como utilizamos SQLite, basta aplicar as migrações padrão:
 
-Bash
+Como utilizamos SQLite, basta aplicar as migrações padrão:
 
 python manage.py makemigrations
 python manage.py migrate
 5. Criar Superusuário (Admin)
-Para gerenciar os produtos pelo painel administrativo:
 
-Bash
+Para gerenciar os produtos pelo painel administrativo:
 
 python manage.py createsuperuser
 6. Executar o Servidor
-Bash
-
 python manage.py runserver
-Acesse a aplicação em: http://127.0.0.1:8000/
-Acesse o admin em: http://127.0.0.1:8000/admin/
 
+Acesse a aplicação:
+
+🌐 http://127.0.0.1:8000/
+⚙️ http://127.0.0.1:8000/admin/
 📸 Funcionalidades em Destaque
-Navegação Intuitiva: Menu fácil de usar para alunos e funcionários.
-Painel Administrativo: Cadastro e edição de produtos sem mexer no código.
-Leveza: Sem necessidade de instalar servidores de banco de dados.
-Responsivo: Funciona bem em celulares e computadores.
+✅ Navegação intuitiva para alunos e funcionários
+✅ Painel administrativo para gerenciar produtos
+✅ Banco de dados leve (SQLite, sem necessidade de instalação extra)
+✅ Interface responsiva (mobile e desktop)
 🤝 Contribuição
-Contribuições são bem-vindas! Para contribuir:
 
-Faça um Fork do projeto.
-Crie uma branch para sua feature (git checkout -b feature/MinhaFeature).
-Commit suas mudanças (git commit -m 'Adiciona nova funcionalidade').
-Push para a branch (git push origin feature/MinhaFeature).
-Abra um Pull Request.
+Contribuições são bem-vindas! Siga os passos:
+
+Faça um fork do projeto
+
+Crie uma branch para sua feature:
+
+git checkout -b feature/MinhaFeature
+
+Faça commit das suas mudanças:
+
+git commit -m "Adiciona nova funcionalidade"
+
+Faça push para a branch:
+
+git push origin feature/MinhaFeature
+Abra um Pull Request 🚀
 📄 Licença
+
 Este projeto está sob a licença MIT. Sinta-se livre para usar e modificar.
 
 👨‍💻 Autor
-Desenvolvido por Seu Nome Aqui.
+
+Desenvolvido por Seu Nome Aqui
 
 GitHub
 LinkedIn
 Email: seuemail@exemplo.com
-Projeto desenvolvido para fins acadêmicos e práticos com Django.
+
+📚 Projeto desenvolvido para fins acadêmicos e práticos com Django.
+
+
+Se quiser, posso também deixar isso com badges (status, licença, versão Python) ou adaptar para um README ainda m
