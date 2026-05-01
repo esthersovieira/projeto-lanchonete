@@ -1,0 +1,534 @@
+Aqui está um **cardápio completo e elegante** para o seu sistema Django. Este código pode ser colocado em `templates/cardapio.html` ou usado como página inicial.
+
+## 1. O Código HTML + CSS
+
+Copie este conteúdo para um arquivo `templates/cardapio.html` ou `home/cardapio.html`:
+
+```html
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio - Lanchonete da Escola</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #f39c12;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --success: #27ae60;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-hover: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: var(--white);
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "🥪";
+            font-size: 2rem;
+        }
+
+        .cart-icon {
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .cart-icon:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+            border-color: var(--secondary);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Banner */
+        .banner {
+            background: linear-gradient(135deg, var(--accent) 0%, #e67e22 100%);
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--white);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .banner p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            box-shadow: var(--shadow);
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Cards */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .add-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .add-btn:hover {
+            background: #219653;
+            transform: scale(1.05);
+        }
+
+        .badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Special Section */
+        .special-section {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+        }
+
+        .special-section h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .special-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .special-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .special-item:hover {
+            transform: scale(1.02);
+        }
+
+        .special-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .banner h1 {
+                font-size: 1.8rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .banner {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product-card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Lanchonete Escolar</div>
+            <button class="cart-icon" onclick="alert('Carrinho de Pedidos')">
+                🛒 Meus Pedidos
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Banner -->
+        <div class="banner">
+            <h1>Delícias Escolares</h1>
+            <p>Sabores que animam o seu dia a dia</p>
+        </div>
+
+        <!-- Categories -->
+        <div class="categories">
+            <button class="category-btn active" onclick="filterCategory('todos')">Todos</button>
+            <button class="category-btn" onclick="filterCategory('lanches')">Lanches</button>
+            <button class="category-btn" onclick="filterCategory('bebidas')">Bebidas</button>
+            <button class="category-btn" onclick="filterCategory('saladas')">Saladas</button>
+            <button class="category-btn" onclick="filterCategory('doces')">Doces</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid">
+            <!-- Lanches -->
+            <div class="product-card" data-category="lanches">
+                <span class="badge">Mais Vendido</span>
+                <img src="{% static 'img/burguer.jpg' %}" alt="Hambúrguer Clássico" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Hambúrguer Clássico</h3>
+                    <p class="product-description">Pão de milho, carne 100% bovino, queijo, batata frita e maionese</p>
+                    <div class="product-footer">
+                        <span class="price">R$ 12,00</span>
+                        <button class="add-btn" onclick="addToCart('Hambúrguer Clássico')">
+                            <span>+</span> Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="lanches">
+                <img src="{% static 'img/pica-pau.jpg' %}" alt="Pica-Pau" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Pica-Pau Suíno</h3>
+                    <p class="product-description">Pão francês, peito de peru, queijo suíno, maionese e mostarda</p>
+                    <div class="product-footer">
+                        <span class="price">R$ 14,00</span>
+                        <button class="add-btn" onclick="addToCart('Pica-Pau Suíno')">
+                            <span>+</span> Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="lanches">
+                <span class="badge">Novo</span>
+                <img src="{% static 'img/maca.jpg' %}" alt="Maca de Chocolate" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Maca de Chocolate</h3>
+                    <p class="product-description">Maca crua com cobertura de chocolate belga 70% cacau</p>
+                    <div class="product-footer">
+                        <span class="price">R$ 8,00</span>
+                        <button class="add-btn" onclick="addToCart('Maca de Chocolate')">
+                            <span>+</span> Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bebidas -->
+            <div class="product-card" data-category="bebidas">
+                <img src="{% static 'img/refrigerante.jpg' %}" alt="Refrigerante Lata" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Refrigerante Lata</h3>
+                    <p class="product-description">Coca-Cola, Sprite, Fanta ou Sprite (350ml)</p>
+                    <div class="product-footer">
+                        <span class="price">R$ 6,00</span>
+                        <button class="add-btn" onclick="addToCart('Refrigerante')">
+                            <span>+</span> Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bebidas">
+                <span class="badge">Sem Açúcar</span>
+                <img src="{% static 'img/water.jpg' %}" alt="Água Mineral" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Água Mineral Natural</h3>
+                    <p class="product-description">500ml ou 1L - Sem gás ou com gás</p>
+                    <div class="product-footer">
+                        <span class="price">R$ 4,00</span>
+                        <button class="add-btn" onclick="addToCart('Água Mineral')">
+                            <span>+</span> Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bebidas">
+                <img src="{% static 'img/suco.jpg' %}" alt="Suco Natural" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Suco Natural 200ml</h3>
+                    <p class="product-description">Laranja, limão, uva ou mamão natural</p>
+                    <div class="product-footer">
+                        <span class="price">R$ 7,00</span>
+                        <button class="add-btn" onclick="addToCart('Suco Natural')">
+                            <span>+</span> Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saladas -->
+            <div class="product-card" data-category="saladas">
+                <img src="{% static 'img/salada.jpg' %}" alt="Salada Caesar" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Salada Caesar</h3>
+                    <p class="product-description">Alface romana, frango grelhado, queijo parmesão, molho ceasar</p>
+                    <div class="product-footer">
+                        <span class="price">R$ 18,00</span>
+                        <button class="add-btn" onclick="addToCart('Salada Caesar')">
+                            <span>+</span> Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="saladas">
+                <img src="{% static 'img/granola.jpg' %}" alt="Granola" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Granola Caseira</h3>
+                    <p class="product-description">Aveia, castanhas, frutas secas e chocolate</p>
+                    <div class="product-footer">
+                        <span class="price">R$ 15,00</span>
+                        <button class="add-btn" onclick="addToCart('Granola Caseira')">
+                            <span>+</span> Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doces -->
+            <div class="product-card" data-category="doces">
+                <span class="badge">Promoção</span>
+                <img src="{% static 'img/bolo.jpg' %}" alt="Bolo de Chocolate" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Bolo de Chocolate</h3>
+                    <p class="product-description">1/6 de bolo de chocolate suíço com recheio de creme de leite</p>
+                    <div class="product-footer">
+                        <span class="price">R$ 10,00</span>
+                        <button class="add-btn" onclick="addToCart('Bolo de Chocolate')">
+                            <span>+</span> Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="doces">
+                <img src="{% static 'img/pipoca.jpg' %}" alt="Pipoca" class="product-image">
+                <div class="product-content">
+                    <h3 class="product-title">Pipoca Caseira</h3>
+                    <p class="product-description">Pipoca com manteiga e sal grosso ou queijo</p>
+                    <div class="product-footer">
+                        <span class="price">R$ 5,00</span>
+                        <button class="add-btn" onclick="addToCart('Pipoca Caseira')">
+                            <span>+</span> Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Especial -->
+        <div class="special-section">
+            <h2>⭐ Destaques do Dia</h2>
+            <div class="special-grid">
+                <div class="special-item">
+                    <div class="icon">🥗</div>
+                    <h4>Mix Frutas</h4>
+                    <p>Mangá, abacaxi
